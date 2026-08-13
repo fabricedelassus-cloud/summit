@@ -327,9 +327,33 @@ async function weekRecap(){
 }
 
 /* =================== TIMER =================== */
+/* Bips générés par Web Audio API : pas de fichier son à charger, fonctionne
+   hors ligne. Le contexte doit être créé (ou réveillé) depuis un vrai geste
+   utilisateur — Safari iOS refuse sinon de jouer le moindre son. Le tap qui
+   lance le chrono est ce geste, donc on en profite ici. */
+let audioCtx = null;
+function debloquerSon(){
+  try{
+    if(!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    else if(audioCtx.state === 'suspended') audioCtx.resume();
+  }catch(e){}
+}
+function beep(freq, dur, vol){
+  if(!audioCtx) return;
+  try{
+    const osc = audioCtx.createOscillator(), gain = audioCtx.createGain();
+    osc.type = 'sine'; osc.frequency.value = freq;
+    gain.gain.value = vol;
+    gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + dur);
+    osc.connect(gain); gain.connect(audioCtx.destination);
+    osc.start(); osc.stop(audioCtx.currentTime + dur);
+  }catch(e){}
+}
+
 let timerInt = null;
 function startTimer(sec,label){
   stopTimer(false);
+  debloquerSon();
   const bar = $('#timerbar'); bar.classList.add('on');
   let left = sec;
   const upd = ()=>{ $('#timerTxt').textContent = label+' · '+fmtMMSS(left); };
@@ -339,9 +363,13 @@ function startTimer(sec,label){
     if(left<=0){
       clearInterval(timerInt); timerInt=null;
       $('#timerTxt').textContent = 'Repos terminé · go';
+      beep(880, .22, .35);
       try{ if(navigator.vibrate) navigator.vibrate([220,120,220]); }catch(e){}
       setTimeout(()=>bar.classList.remove('on'), 2500);
-    } else upd();
+    } else {
+      if(left <= 5) beep(660, .09, .22);   // décompte sonore : 5-4-3-2-1
+      upd();
+    }
   },1000);
 }
 function stopTimer(){ if(timerInt){ clearInterval(timerInt); timerInt=null; } $('#timerbar').classList.remove('on'); }
