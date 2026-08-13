@@ -12,7 +12,7 @@
    VERSION : à incrémenter à chaque dépôt de nouveaux fichiers, sinon le
    téléphone garde l'ancienne version.
    ============================================================ */
-const VERSION = 'summit-v3';   /* v3 : badge de fin de bloc, animation de validation de séance */
+const VERSION = 'summit-v4';   /* v4 : décompte sonore dans les 5 dernières secondes du chrono de repos */
 const CACHE_APP = 'app-' + VERSION;
 const CACHE_EXT = 'ext-' + VERSION;
 
