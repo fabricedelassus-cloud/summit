@@ -39,6 +39,23 @@
 
 <div id="timerbar" onclick="stopTimer(false)"><span id="timerTxt"></span></div>
 <div id="toast"></div>
+<div id="checkFx"><svg viewBox="0 0 24 24" fill="none" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 12.5l5 5 10-11"/></svg></div>
+
+<!-- Badge de fin de bloc. Affiché quand les 7 semaines sont bouclées, avant de
+     lancer le bloc suivant — la validation reste manuelle (bouton Continuer),
+     jamais automatique, pour ne pas repartir sans avoir vu le récap. -->
+<div id="celeb">
+  <div class="in">
+    <svg viewBox="0 0 160 110" fill="none">
+      <path id="celebPeak" d="M10 96 L52 34 L74 62 L100 18 L150 96" stroke="var(--p)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M100 18 L112 32 L88 32 Z" fill="var(--p2)"/>
+      <circle cx="100" cy="18" r="5" fill="var(--p2)"/>
+    </svg>
+    <h3 id="celebT">Bloc terminé</h3>
+    <div class="mut small" id="celebS"></div>
+    <button class="btn" id="celebBtn" onclick="confirmerNouveauBloc()">Démarrer le bloc suivant</button>
+  </div>
+</div>
 
 <!-- Écran de connexion. Affiché uniquement si aucune session Supabase valide.
      « Continuer hors ligne » garantit qu'une panne de réseau ne bloque jamais une séance. -->

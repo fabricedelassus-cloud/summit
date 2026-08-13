@@ -24,6 +24,26 @@ function fmtMMSS(s){ return Math.floor(s/60)+':'+pad2(s%60); }
 function avg(a){ return a.reduce((x,y)=>x+y,0)/a.length; }
 function toast(msg){ const t=$('#toast'); t.textContent=msg; t.classList.add('on'); clearTimeout(toast._h); toast._h=setTimeout(()=>t.classList.remove('on'), 2400); }
 
+/* =================== GAMIFICATION LÉGÈRE =================== */
+/* Coche satisfaisante au centre de l'écran, indépendante de la position du
+   bouton pressé — l'utilisateur peut avoir scrollé. */
+function flashCheck(){
+  const el = $('#checkFx'); if(!el) return;
+  el.classList.remove('on'); void el.offsetWidth; el.classList.add('on');
+}
+/* Pulsation sur la crête de l'en-tête et l'aiguille du rail : relie visuellement
+   la séance qu'on vient de valider à la progression du bloc. */
+function climbPulse(){
+  [$('#crest'), document.querySelector('#rail .needle')].forEach(el => {
+    if(!el) return;
+    el.classList.remove('climb'); void el.offsetWidth; el.classList.add('climb');
+  });
+}
+function flashValidation(){
+  try{ if(navigator.vibrate) navigator.vibrate([16,45,16]); }catch(e){}
+  flashCheck(); climbPulse();
+}
+
 /* =================== ÉTAT GLOBAL =================== */
 let STATE = null;      // {start:'YYYY-MM-DD', bloc:1}
 let DAY = null;        // log du jour
@@ -140,7 +160,7 @@ function renderToday(){
   let h = '';
   if(blocOver()){
     h += '<div class="alertcard warn"><b>Bloc '+STATE.bloc+' terminé.</b> Fais les 6 tests (onglet Mesures), puis lance le bloc suivant.</div>'
-       + '<button class="btn olive" onclick="newBloc()">Démarrer le bloc '+(STATE.bloc+1)+'</button><hr class="sep">';
+       + '<button class="btn olive" onclick="ouvrirCelebrationBloc()">Démarrer le bloc '+(STATE.bloc+1)+'</button><hr class="sep">';
   }
   h += '<div class="card tinted" style="--tint:'+c+'">'
      + '<div class="hero-day"><div class="daycode" style="--tint:'+c+'">'+s.code+'</div>'
@@ -272,6 +292,7 @@ async function saveMuscu(){
   }
   await sset('summit:hist', HIST);
   DAY.seance = true; await saveDay();
+  flashValidation();
   toast('Séance '+s.code+' enregistrée'); renderSeance();
 }
 
@@ -287,6 +308,7 @@ async function saveCardio(){
   await sset('summit:wk:'+T, entry);
   SEANCE_SAVED = entry;
   DAY.seance = true; await saveDay();
+  flashValidation();
   toast('Séance enregistrée'); renderSeance();
 }
 
@@ -419,8 +441,52 @@ async function newBloc(){
   STATE.start = fmtDate(mondayOf(new Date()));
   STATE.bloc += 1;
   await sset('summit:state', STATE);
-  renderHeader(); renderToday();
+  renderHeader(); renderToday(); renderProto();   /* renderProto : sinon le trophée n'apparaît qu'au prochain chargement */
   toast('Bloc '+STATE.bloc+' lancé');
+}
+
+/* Récap du bloc qui vient de se terminer, calculé depuis le cache local :
+   fonctionne même hors ligne, comme le reste de l'onglet Progression. */
+async function recapBloc(){
+  const { jours, seances } = await chargerHistorique();
+  const debut = STATE.start;
+  const fin = fmtDate(new Date(new Date(STATE.start).getTime() + 49*86400000));
+  const joursBloc = Object.entries(jours).filter(([d]) => d >= debut && d < fin);
+  const seancesBloc = Object.entries(seances).filter(([d]) => d >= debut && d < fin);
+  return {
+    seances: seancesBloc.length,
+    mobilite: joursBloc.filter(([,j]) => j.mob).length,
+    total_jours: joursBloc.length
+  };
+}
+
+async function ouvrirCelebrationBloc(){
+  const r = await recapBloc();
+  $('#celebT').textContent = 'Bloc ' + STATE.bloc + ' gravi';
+  $('#celebS').textContent = r.seances + ' séance' + (r.seances>1?'s':'') + ' loggée' + (r.seances>1?'s':'')
+    + (r.total_jours ? ' · mobilité ' + r.mobilite + '/' + r.total_jours + ' j' : '') + '. Photos face / profil / dos faites ?';
+  const peak = $('#celebPeak');
+  peak.style.animation = 'none'; void peak.offsetWidth; peak.style.animation = '';   // relance le tracé à chaque ouverture
+  $('#celeb').classList.add('on');
+  try{ if(navigator.vibrate) navigator.vibrate([20,60,20,60,40]); }catch(e){}
+}
+async function confirmerNouveauBloc(){
+  $('#celeb').classList.remove('on');
+  await newBloc();
+}
+
+/* Un trophée par bloc complété (1 à STATE.bloc - 1) — aucune donnée à part
+   entière : le compteur de bloc suffit à savoir combien en sont terminés. */
+function badgesHTML(){
+  if(STATE.bloc <= 1) return '';
+  let chips = '';
+  for(let b=1; b<STATE.bloc; b++){
+    chips += '<div class="badge-trophy" title="Bloc '+b+' complété">'
+      + '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">'
+      + '<path d="M6 4h12v4a6 6 0 0 1-12 0z"/><path d="M6 6H3a2 2 0 0 0 2 4M18 6h3a2 2 0 0 1-2 4"/><path d="M12 14v4M9 21h6"/></svg>'
+      + '<span>Bloc ' + b + '</span></div>';
+  }
+  return '<h2>Blocs gravis</h2><div class="card"><div class="badgerow">' + chips + '</div></div>';
 }
 
 /* =================== ONGLET PROGRESSION =================== */
@@ -608,7 +674,8 @@ function protoSession(n){
 }
 
 function renderProto(){
-  let h = '<h2>Le protocole embarqué</h2>';
+  let h = badgesHTML();
+  h += '<h2>Le protocole embarqué</h2>';
   h += '<details><summary>Mobilité matinale · 25-30 min</summary><div class="inner">'
     + MOB.map(bl =>
         '<p style="margin:12px 0 2px"><b>'+bl[0]+'</b></p>'
