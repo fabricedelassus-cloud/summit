@@ -53,6 +53,17 @@ const SESSIONS = {
   0:{code:'D', name:'Repos complet', type:'repos', target:'Le muscle se construit aujourd\'hui. Marche légère autorisée.'}
 };
 
+/* Groupe musculaire de chaque mouvement, pour le calcul du volume hebdomadaire.
+   Classification ajoutée pour l'onglet Progression : elle ne modifie aucun
+   exercice, elle les range. Un mouvement compte pour un seul groupe, celui qu'il
+   sollicite en premier — sinon le volume total serait gonflé par les doublons. */
+const GROUPES = {
+  j1a:'Poussée', j1b:'Poussée', j1c:'Poussée', j1d:'Poussée', j1e:'Tirage',  j1f:'Core',
+  j2a:'Jambes',  j2b:'Jambes',  j2c:'Jambes',  j2d:'Jambes',  j2e:'Jambes',  j2f:'Jambes',
+  j4a:'Tirage',  j4b:'Tirage',  j4c:'Tirage',  j4d:'Tirage',  j4e:'Poussée', j4f:'Tirage', j4g:'Core'
+};
+const ORDRE_GROUPES = ['Poussée', 'Tirage', 'Jambes', 'Core'];
+
 /* Requêtes YouTube par mouvement : zéro lien codé en dur, toujours à jour */
 const YT = {
   j1a:'decline push up tutorial', j1b:'dips tutorial proper form', j1c:'pike push up tutorial',
