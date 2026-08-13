@@ -3,6 +3,10 @@
 Suivi personnel d'un protocole d'entraînement au poids de corps et de nutrition.
 Application web mobile-first, sans framework ni étape de build : sept fichiers statiques.
 
+**En ligne : https://fabricedelassus-cloud.github.io/summit/**
+Épinglée sur l'écran d'accueil iPhone via Safari. Vérifiée en mode avion : elle
+s'ouvre et accepte les saisies sans réseau.
+
 ## Structure
 
 | Fichier | Rôle |
@@ -44,9 +48,11 @@ données pourraient être servies périmées.
 1. Modifier les fichiers.
 2. **Incrémenter `VERSION` dans `sw.js`** (`summit-v1` → `summit-v2`, etc.).
    Sans ça, les appareils continuent de servir l'ancienne version depuis leur cache.
-3. Pousser sur la branche `main` : GitHub Pages publie automatiquement.
+3. Publier sur la branche `main` : GitHub Pages met le site à jour automatiquement.
+   Aujourd'hui la publication se fait par glisser-déposer dans l'interface web
+   (`Add file → Upload files`), faute d'identifiants git configurés sur la machine.
 4. Rouvrir l'app sur le téléphone. Un message « Nouvelle version prête » s'affiche
-   quand la mise à jour est en cache.
+   quand la mise à jour est en cache. Compter jusqu'à 10 min (cache GitHub Pages).
 
 ## Vérifier que tout fonctionne
 

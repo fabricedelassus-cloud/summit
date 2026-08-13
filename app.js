@@ -85,6 +85,7 @@ function showTab(id){
   if(id==='today') renderToday();
   if(id==='seance') renderSeance();
   if(id==='mesures') renderMesures();
+  if(id==='progres') renderProgres();
   window.scrollTo({top:0});
 }
 
@@ -420,6 +421,178 @@ async function newBloc(){
   await sset('summit:state', STATE);
   renderHeader(); renderToday();
   toast('Bloc '+STATE.bloc+' lancé');
+}
+
+/* =================== ONGLET PROGRESSION =================== */
+/* Tout se calcule depuis le cache local, alimenté par Supabase au démarrage.
+   Conséquence : cet onglet fonctionne aussi hors ligne. */
+
+const COUL_GROUPE = { 'Poussée':'#FF9E5E', 'Tirage':'#7FE3B0', 'Jambes':'#B99BFF', 'Core':'#8DA2C0' };
+let PROG_EX = null;          /* exercice affiché dans la courbe de RIR */
+
+async function chargerHistorique(){
+  const jours = {}, seances = {};
+  for(const k of await skeys('summit:day:')){ const v = await sget(k); if(v) jours[k.slice(11)] = v; }
+  for(const k of await skeys('summit:wk:')){ const v = await sget(k); if(v) seances[k.slice(10)] = v; }
+  return { jours, seances };
+}
+
+/* Regroupe des valeurs datées par semaine (lundi), et renvoie la moyenne. */
+function moyParSemaine(paires, n){
+  const g = {};
+  paires.forEach(([d, v]) => {
+    if(v == null || v === '' || isNaN(v)) return;
+    const w = fmtDate(mondayOf(new Date(d)));
+    (g[w] = g[w] || []).push(parseFloat(v));
+  });
+  return Object.keys(g).sort().slice(-(n || 10))
+    .map(w => ({ w: shortFR(w), v: avg(g[w]) }));
+}
+
+async function renderProgres(){
+  const pane = $('#pane-progres');
+  pane.innerHTML = '<div class="mut small" style="text-align:center; padding:26px 0">Calcul en cours…</div>';
+  const { jours, seances } = await chargerHistorique();
+
+  const listeJours   = Object.entries(jours).sort((a,b) => a[0] < b[0] ? -1 : 1);
+  const listeSeances = Object.entries(seances).sort((a,b) => a[0] < b[0] ? -1 : 1);
+
+  /* ---------- volume hebdomadaire par groupe musculaire ---------- */
+  const parSemaine = {};
+  listeSeances.forEach(([d, e]) => {
+    if(!e || !e.ex) return;
+    const w = fmtDate(mondayOf(new Date(d)));
+    const g = parSemaine[w] = parSemaine[w] || {};
+    for(const id in e.ex){
+      const grp = GROUPES[id] || 'Core';
+      const nbSeries = (e.ex[id].s || []).length;
+      g[grp] = (g[grp] || 0) + nbSeries;
+    }
+  });
+  const semaines = Object.keys(parSemaine).sort().slice(-8)
+    .map(w => ({ lbl: shortFR(w), g: parSemaine[w] }));
+
+  /* ---------- RIR par exercice ---------- */
+  const rirParEx = {};
+  listeSeances.forEach(([d, e]) => {
+    if(!e || !e.ex) return;
+    for(const id in e.ex){
+      const r = e.ex[id].rir;
+      if(r === '' || r == null) continue;
+      const v = parseFloat(String(r).replace('+',''));
+      if(isNaN(v)) continue;
+      (rirParEx[id] = rirParEx[id] || []).push({ w: shortFR(d), v: v });
+    }
+  });
+  const exDispos = Object.keys(rirParEx).filter(id => rirParEx[id].length >= 2)
+    .sort((a,b) => rirParEx[b].length - rirParEx[a].length);
+  if(!PROG_EX || !rirParEx[PROG_EX]) PROG_EX = exDispos[0] || null;
+
+  /* ---------- FC moyenne en Zone 2, par mois ---------- */
+  const fcMois = {};
+  listeSeances.forEach(([d, e]) => {
+    if(!e || !e.cardio || e.code !== 'J3') return;      /* J3 est la séance Zone 2 */
+    const fc = parseFloat(e.cardio.fc);
+    if(!fc) return;
+    const m = d.slice(0, 7);
+    (fcMois[m] = fcMois[m] || []).push(fc);
+  });
+  const MOIS = ['janv','févr','mars','avr','mai','juin','juil','août','sept','oct','nov','déc'];
+  const ptsFC = Object.keys(fcMois).sort().slice(-8)
+    .map(m => ({ w: MOIS[parseInt(m.slice(5),10)-1], v: avg(fcMois[m]) }));
+
+  /* ---------- sommeil, pas, protéines ---------- */
+  const ptsSommeil = moyParSemaine(listeJours.map(([d,j]) => [d, j.sommeil]), 8);
+  const ptsPas     = moyParSemaine(listeJours.map(([d,j]) => [d, j.pas]), 8);
+  const ptsProt    = moyParSemaine(listeJours.map(([d,j]) =>
+                       [d, Array.isArray(j.prot) ? (j.prot.filter(Boolean).length === 4 ? 100 : 0) : null]), 8);
+
+  /* ---------- 30 derniers jours ---------- */
+  const limite = fmtDate(new Date(Date.now() - 30*86400000));
+  const recents = listeJours.filter(([d]) => d >= limite).map(([, j]) => j);
+  const nb = recents.length;
+  const compte = f => recents.filter(f).length;
+  const seancesRecentes = listeSeances.filter(([d]) => d >= limite).length;
+  const sommeilsRecents = recents.map(j => parseFloat(j.sommeil)).filter(v => !isNaN(v));
+  const tauxProt = nb ? Math.round(compte(j => Array.isArray(j.prot) && j.prot.filter(Boolean).length === 4) / nb * 100) : 0;
+
+  /* ---------- rendu ---------- */
+  let h = '';
+
+  if(!listeJours.length && !listeSeances.length){
+    pane.innerHTML = '<div class="alertcard info"><b>Rien à afficher pour l\'instant.</b> '
+      + 'Cet onglet se remplit tout seul à mesure que tu enregistres des séances et remplis ta journée. '
+      + 'Reviens après quelques jours : les courbes ont besoin d\'au moins deux points pour se tracer.</div>';
+    return;
+  }
+
+  h += '<div class="kpirow">'
+    +  '<div class="kpi"><div class="v num">' + seancesRecentes + '</div><div class="l">Séances · 30 j</div></div>'
+    +  '<div class="kpi"><div class="v num">' + (sommeilsRecents.length ? avg(sommeilsRecents).toFixed(1).replace('.',',') : '–') + '</div><div class="l">Sommeil moy.</div></div>'
+    +  '<div class="kpi"><div class="v num">' + (nb ? tauxProt + ' %' : '–') + '</div><div class="l">4 prises</div></div>'
+    +  '</div>';
+
+  h += '<div class="card"><h3>Volume par groupe</h3>'
+    +  '<div class="mut small">Séries effectives par semaine, les 8 dernières</div>'
+    +  '<div class="chart" style="margin-top:8px">'
+    +  barsSVG(semaines, ORDRE_GROUPES, ORDRE_GROUPES.map(g => COUL_GROUPE[g])) + '</div>'
+    +  '<div class="legend">' + ORDRE_GROUPES.map(g =>
+         '<span><i style="background:' + COUL_GROUPE[g] + '"></i>' + g + '</span>').join('') + '</div></div>';
+
+  h += '<div class="card"><h3>RIR par exercice</h3>'
+    +  '<div class="mut small">Il baisse = tu vas plus près de l\'échec à performance égale. Indicateur indirect de progression.</div>';
+  if(PROG_EX){
+    h += '<select style="margin-top:10px" onchange="PROG_EX=this.value; renderProgres()">'
+      +  exDispos.map(id => '<option value="' + id + '"' + (id === PROG_EX ? ' selected' : '') + '>'
+         + esc(nomExercice(id)) + '</option>').join('')
+      +  '</select>'
+      +  '<div class="chart">' + chartSVG(rirParEx[PROG_EX].slice(-10), COUL_GROUPE[GROUPES[PROG_EX]] || '#7FD4E8', '', { dec:1, labels:true }) + '</div>';
+  } else {
+    h += '<div class="mut small" style="margin-top:8px">Il faut au moins deux séances avec un RIR renseigné sur un même exercice.</div>';
+  }
+  h += '</div>';
+
+  h += '<div class="card"><h3>FC moyenne · Zone 2</h3>'
+    +  '<div class="mut small">Elle baisse à allure égale = le moteur aérobie progresse. Calculée sur les séances J3.</div>'
+    +  '<div class="chart">' + chartSVG(ptsFC, '#7FD4E8', ' bpm', { dec:0, labels:true }) + '</div></div>';
+
+  h += '<div class="card"><h3>Sommeil</h3><div class="mut small">Moyenne hebdomadaire · cible 7 h 30 - 8 h</div>'
+    +  '<div class="chart">' + chartSVG(ptsSommeil, '#B99BFF', ' h', { dec:1, labels:true }) + '</div></div>';
+
+  h += '<div class="card"><h3>Pas quotidiens</h3><div class="mut small">Moyenne hebdomadaire · cible 8 000 - 10 000</div>'
+    +  '<div class="chart">' + chartSVG(ptsPas, '#8DA2C0', '', { dec:0, labels:true }) + '</div></div>';
+
+  h += '<div class="card"><h3>Respect des 4 prises</h3><div class="mut small">Part des jours où les 4 prises de protéines sont validées</div>'
+    +  '<div class="chart">' + chartSVG(ptsProt, '#7FE3B0', ' %', { dec:0, labels:true }) + '</div></div>';
+
+  if(nb){
+    const lignes = [
+      ['Mobilité matinale', compte(j => j.mob)],
+      ['Séance du jour',    compte(j => j.seance)],
+      ['4 prises de protéines', compte(j => Array.isArray(j.prot) && j.prot.filter(Boolean).length === 4)],
+      ['8 000 pas',         compte(j => parseFloat(j.pas) >= 8000)],
+      ['Sommeil ≥ 7 h 30',  compte(j => parseFloat(j.sommeil) >= 7.5)]
+    ];
+    h += '<div class="card"><h3>Habitudes</h3><div class="mut small">Sur les ' + nb + ' derniers jours renseignés</div>'
+      +  lignes.map(l => '<div style="padding:10px 0; border-bottom:1px solid var(--line)">'
+           + '<div class="rowk" style="border:none; padding:0"><span>' + l[0] + '</span>'
+           + '<span class="v num">' + l[1] + ' / ' + nb + '</span></div>'
+           + '<div class="bar"><i style="width:' + Math.round(l[1]/nb*100) + '%"></i></div></div>').join('')
+      +  '</div>';
+  }
+
+  pane.innerHTML = h;
+}
+
+/* Retrouve le nom lisible d'un exercice depuis son identifiant. */
+function nomExercice(id){
+  for(const n in SESSIONS){
+    const s = SESSIONS[n];
+    if(!s.ex) continue;
+    const e = s.ex.find(x => x.id === id);
+    if(e) return s.code + ' · ' + e.n;
+  }
+  return id;
 }
 
 /* =================== ONGLET PROTOCOLE =================== */
