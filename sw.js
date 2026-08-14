@@ -12,7 +12,7 @@
    VERSION : à incrémenter à chaque dépôt de nouveaux fichiers, sinon le
    téléphone garde l'ancienne version.
    ============================================================ */
-const VERSION = 'summit-v6';   /* v6 : volume J1 augmenté (pompes écartées, +1 série pike et épaules) */
+const VERSION = 'summit-v7';   /* v7 : la date du jour se rafraîchit au retour au premier plan */
 const CACHE_APP = 'app-' + VERSION;
 const CACHE_EXT = 'ext-' + VERSION;
 

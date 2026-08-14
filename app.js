@@ -50,7 +50,11 @@ let DAY = null;        // log du jour
 let HIST = {};         // {exId:[{d,s:[...],rir}]}
 let MES = [];          // [{d,poids,taille,sol}]
 let TESTS = [];        // [{d,bloc,pompes,tractions,hang,sol,taille}]
-const T = todayStr();
+/* `let`, pas `const` : sur iPhone, ne pas fermer complètement l'app (juste
+   retourner à l'écran d'accueil sans balayer vers le haut) peut laisser le
+   processus vivant sans jamais recharger la page. T resterait alors figé sur
+   l'ancien jour indéfiniment. Voir verifierChangementDeJour(). */
+let T = todayStr();
 
 function weekNum(){
   const diff = Math.floor((new Date(T) - new Date(STATE.start)) / 86400000);
@@ -397,6 +401,7 @@ document.addEventListener('visibilitychange', () => {
   if(document.visibilityState === 'visible'){
     debloquerSon();
     if(timerInt) tickTimer();
+    verifierChangementDeJour();
   }
 });
 
@@ -857,6 +862,24 @@ async function envoyerLocal(){
 
 /* =================== INIT =================== */
 let SEANCE_SAVED = null;
+/* Détecte un changement de jour survenu pendant que l'app restait ouverte en
+   arrière-plan (T ne se recalcule jamais tout seul, voir sa définition plus
+   haut). Recharge uniquement ce qui dépend de la date, puis rafraîchit
+   l'onglet affiché — sans recharger toute la page. */
+async function verifierChangementDeJour(){
+  const aujourdhui = todayStr();
+  if(aujourdhui === T) return;
+  T = aujourdhui;
+  DAY = Object.assign({}, DAY_DEF, (await sget('summit:day:'+T)) || {});
+  if(!Array.isArray(DAY.prot)) DAY.prot = [false,false,false,false];
+  SEANCE_SAVED = await sget('summit:wk:'+T);
+  if(sessionToday().type==='repos' && !DAY.seance){ DAY.seance = true; await saveDay(); }
+  renderHeader();
+  const actif = document.querySelector('.tabpane.on');
+  if(actif) showTab(actif.id.replace('pane-',''));
+  toast('Nouveau jour · ' + new Date().toLocaleDateString('fr-FR',{weekday:'long', day:'numeric', month:'long'}));
+}
+
 async function boot(){
   STATE = await sget('summit:state');
   if(!STATE){ STATE = {start: fmtDate(mondayOf(new Date())), bloc: 1}; await sset('summit:state', STATE); }
