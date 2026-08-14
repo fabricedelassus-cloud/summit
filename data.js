@@ -46,7 +46,8 @@ const SESSIONS = {
       {id:'j4d', n:'Face pulls élastique', d:'Pause 1 s · alt. : australien coudes hauts', sets:3, reps:'15-20', tempo:'contrôlé', rest:60, rl:'1 min'},
       {id:'j4e', n:'Rappel poussée · pompes déclinées', d:'RIR 2', sets:3, reps:'10-12', tempo:'2-0-1', rest:90, rl:'1 min 30'},
       {id:'j4f', n:'Suspension serviette', d:'Poigne · en secondes', sets:2, reps:'max s', tempo:'', rest:90, rl:'1 min 30', unit:'s'},
-      {id:'j4g', n:'Anti-rotation', d:'Planche rotation bassin ou pallof · en secondes', sets:3, reps:'30-45 s', tempo:'lent', rest:45, rl:'45 s', unit:'s'}]},
+      {id:'j4g', n:'Anti-rotation', d:'Planche rotation bassin ou pallof · en secondes', sets:3, reps:'30-45 s', tempo:'lent', rest:45, rl:'45 s', unit:'s'},
+      {id:'j4h', n:'Rappel jambes · squats', d:'Très léger, RIR 4 — juste maintenir le pattern avant J5 demain', sets:2, reps:'15-20', tempo:'contrôlé', rest:60, rl:'1 min'}]},
   5:{code:'J5', name:'Cardio montagne', type:'cardio',
      target:'Phase 1 : 30-35 min pente 12-15 % · lest 8-12 kg · RPE 7. Phase 2 (bloc 2+, 1 sem/2) : 4×4 min très dur, récup 3 min. Finisher core : gainage 3×45 s + planche latérale 2×30 s/côté'},
   6:{code:'S', name:'Actif libre', type:'libre',
@@ -61,7 +62,7 @@ const SESSIONS = {
 const GROUPES = {
   j1a:'Poussée', j1g:'Poussée', j1b:'Poussée', j1c:'Poussée', j1d:'Poussée', j1e:'Tirage',  j1f:'Core',
   j2a:'Jambes',  j2b:'Jambes',  j2c:'Jambes',  j2d:'Jambes',  j2e:'Jambes',  j2f:'Jambes',
-  j4a:'Tirage',  j4b:'Tirage',  j4c:'Tirage',  j4d:'Tirage',  j4e:'Poussée', j4f:'Tirage', j4g:'Core'
+  j4a:'Tirage',  j4b:'Tirage',  j4c:'Tirage',  j4d:'Tirage',  j4e:'Poussée', j4f:'Tirage', j4g:'Core', j4h:'Jambes'
 };
 const ORDRE_GROUPES = ['Poussée', 'Tirage', 'Jambes', 'Core'];
 
@@ -73,7 +74,7 @@ const YT = {
   j2d:'tempo squat tutorial', j2e:'single leg calf raise', j2f:'wall sit exercise',
   j4a:'wide grip pull up form', j4b:'chin up tutorial', j4c:'australian pull up tutorial',
   j4d:'band face pull tutorial', j4e:'decline push up tutorial', j4f:'towel hang grip training',
-  j4g:'pallof press band tutorial'
+  j4g:'pallof press band tutorial', j4h:'bodyweight squat tutorial'
 };
 
 /* ---------- Mobilité matinale : [titre de bloc, [[exercice, requête YouTube], ...]] ---------- */
