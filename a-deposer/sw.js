@@ -12,7 +12,7 @@
    VERSION : à incrémenter à chaque dépôt de nouveaux fichiers, sinon le
    téléphone garde l'ancienne version.
    ============================================================ */
-const VERSION = 'summit-v5';   /* v5 : chrono recalé sur l'horloge réelle, son réactivé à chaque bip */
+const VERSION = 'summit-v6';   /* v6 : volume J1 augmenté (pompes écartées, +1 série pike et épaules) */
 const CACHE_APP = 'app-' + VERSION;
 const CACHE_EXT = 'ext-' + VERSION;
 

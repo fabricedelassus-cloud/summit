@@ -20,9 +20,10 @@ const SESSIONS = {
      warm:'2 min cardio léger · rotations épaules · scapula push-ups ×10 · 10 pompes lentes · dead hang 30 s',
      ex:[
       {id:'j1a', n:'Pompes déclinées', d:'Pieds surélevés 40-50 cm', sets:4, reps:'max · RIR 1-2', tempo:'3-1-1', rest:120, rl:'2 min'},
+      {id:'j1g', n:'Pompes écartées', d:'Mains bien plus larges que les épaules', sets:3, reps:'8-12', tempo:'2-0-1', rest:90, rl:'1 min 30'},
       {id:'j1b', n:'Dips', d:'Amplitude sans douleur', sets:4, reps:'8-12', tempo:'2-0-1', rest:105, rl:'1 min 45'},
-      {id:'j1c', n:'Pike push-ups', d:'Pieds surélevés', sets:3, reps:'8-12', tempo:'2-0-1', rest:90, rl:'1 min 30'},
-      {id:'j1d', n:'Élévations latérales élastique', d:'Alt. sans élastique : maintien poirier au mur', sets:3, reps:'15-20', tempo:'contrôlé', rest:60, rl:'1 min'},
+      {id:'j1c', n:'Pike push-ups', d:'Pieds surélevés', sets:4, reps:'8-12', tempo:'2-0-1', rest:90, rl:'1 min 30'},
+      {id:'j1d', n:'Élévations latérales élastique', d:'Alt. sans élastique : maintien poirier au mur', sets:4, reps:'15-20', tempo:'contrôlé', rest:60, rl:'1 min'},
       {id:'j1e', n:'Rappel tirage · tractions', d:'RIR 2', sets:3, reps:'8-10', tempo:'contrôlé', rest:90, rl:'1 min 30'},
       {id:'j1f', n:'Relevés de jambes suspendu', d:'Zéro balancier', sets:3, reps:'10-15', tempo:'lent', rest:60, rl:'1 min'}]},
   2:{code:'J2', name:'Bas du corps', type:'muscu',
@@ -58,7 +59,7 @@ const SESSIONS = {
    exercice, elle les range. Un mouvement compte pour un seul groupe, celui qu'il
    sollicite en premier — sinon le volume total serait gonflé par les doublons. */
 const GROUPES = {
-  j1a:'Poussée', j1b:'Poussée', j1c:'Poussée', j1d:'Poussée', j1e:'Tirage',  j1f:'Core',
+  j1a:'Poussée', j1g:'Poussée', j1b:'Poussée', j1c:'Poussée', j1d:'Poussée', j1e:'Tirage',  j1f:'Core',
   j2a:'Jambes',  j2b:'Jambes',  j2c:'Jambes',  j2d:'Jambes',  j2e:'Jambes',  j2f:'Jambes',
   j4a:'Tirage',  j4b:'Tirage',  j4c:'Tirage',  j4d:'Tirage',  j4e:'Poussée', j4f:'Tirage', j4g:'Core'
 };
@@ -66,7 +67,7 @@ const ORDRE_GROUPES = ['Poussée', 'Tirage', 'Jambes', 'Core'];
 
 /* Requêtes YouTube par mouvement : zéro lien codé en dur, toujours à jour */
 const YT = {
-  j1a:'decline push up tutorial', j1b:'dips tutorial proper form', j1c:'pike push up tutorial',
+  j1a:'decline push up tutorial', j1g:'wide grip push up tutorial', j1b:'dips tutorial proper form', j1c:'pike push up tutorial',
   j1d:'resistance band lateral raise', j1e:'pull up proper form', j1f:'hanging leg raise tutorial',
   j2a:'bulgarian split squat tutorial', j2b:'nordic curl negatives tutorial', j2c:'single leg hip thrust tutorial',
   j2d:'tempo squat tutorial', j2e:'single leg calf raise', j2f:'wall sit exercise',
