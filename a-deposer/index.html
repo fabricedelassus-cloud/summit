@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0F1320">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<title>SUMMIT · Suivi du protocole</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,700;12..96,800&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div id="rail"></div>
+
+<header>
+  <div class="glow" id="skyGlow"></div>
+  <div class="inner">
+    <div class="brand"><h1>SUMMIT</h1><span class="sub">Recomposition &amp; montagne</span></div>
+    <div class="blocline">
+      <div>
+        <span class="lbl" id="blocLbl">Bloc 1 · Semaine 1 / 7</span>
+        <div class="sync" id="syncState" onclick="showTab('proto')"><i></i><span>—</span></div>
+      </div>
+      <div id="blocDots"></div>
+    </div>
+  </div>
+</header>
+
+<main>
+  <div class="tabpane on" id="pane-today"></div>
+  <div class="tabpane" id="pane-seance"></div>
+  <div class="tabpane" id="pane-mesures"></div>
+  <div class="tabpane" id="pane-progres"></div>
+  <div class="tabpane" id="pane-proto"></div>
+</main>
+
+<div id="timerbar" onclick="stopTimer(false)"><span id="timerTxt"></span></div>
+<div id="toast"></div>
+<div id="checkFx"><svg viewBox="0 0 24 24" fill="none" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 12.5l5 5 10-11"/></svg></div>
+
+<!-- Badge de fin de bloc. Affiché quand les 7 semaines sont bouclées, avant de
+     lancer le bloc suivant — la validation reste manuelle (bouton Continuer),
+     jamais automatique, pour ne pas repartir sans avoir vu le récap. -->
+<div id="celeb">
+  <div class="in">
+    <svg viewBox="0 0 160 110" fill="none">
+      <path id="celebPeak" d="M10 96 L52 34 L74 62 L100 18 L150 96" stroke="var(--p)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M100 18 L112 32 L88 32 Z" fill="var(--p2)"/>
+      <circle cx="100" cy="18" r="5" fill="var(--p2)"/>
+    </svg>
+    <h3 id="celebT">Bloc terminé</h3>
+    <div class="mut small" id="celebS"></div>
+    <button class="btn" id="celebBtn" onclick="confirmerNouveauBloc()">Démarrer le bloc suivant</button>
+  </div>
+</div>
+
+<!-- Écran de connexion. Affiché uniquement si aucune session Supabase valide.
+     « Continuer hors ligne » garantit qu'une panne de réseau ne bloque jamais une séance. -->
+<div id="login">
+  <div class="box">
+    <h2 class="title">SUMMIT</h2>
+    <p class="mut small">Connecte-toi une fois : la session reste active ensuite, y compris depuis l'écran d'accueil.</p>
+    <label class="f" for="loginMail">Email</label>
+    <input type="email" id="loginMail" autocomplete="username" inputmode="email" autocapitalize="none" spellcheck="false">
+    <label class="f" for="loginPass">Mot de passe</label>
+    <input type="password" id="loginPass" autocomplete="current-password">
+    <div class="err" id="loginErr"></div>
+    <button class="btn" onclick="faireConnexion()" id="loginBtn">Se connecter</button>
+    <button class="btn ghost" style="margin-top:8px" onclick="continuerHorsLigne()">Continuer hors ligne</button>
+  </div>
+</div>
+
+<nav>
+  <button id="nav-today" class="on" onclick="showTab('today')">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.5v2.6M12 18.9v2.6M2.5 12h2.6M18.9 12h2.6M5.2 5.2l1.9 1.9M16.9 16.9l1.9 1.9M18.8 5.2l-1.9 1.9M7.1 16.9l-1.9 1.9"/></svg>
+    Jour</button>
+  <button id="nav-seance" onclick="showTab('seance')">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"><path d="M7.5 12h9"/><rect x="3.2" y="8.2" width="3" height="7.6" rx="1"/><rect x="17.8" y="8.2" width="3" height="7.6" rx="1"/><path d="M1 10.4v3.2M23 10.4v3.2"/></svg>
+    Séance</button>
+  <button id="nav-mesures" onclick="showTab('mesures')">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 20h18"/><path d="M4 15.5l4.5-5 3.5 3 4-6.5 4 4.5"/></svg>
+    Mesures</button>
+  <button id="nav-progres" onclick="showTab('progres')">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 19l6.5-9 4 4.5L21 4"/><path d="M15.5 4H21v5.5"/></svg>
+    Progrès</button>
+  <button id="nav-proto" onclick="showTab('proto')">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4.5A2.5 2.5 0 0 1 6.5 2H20v17.5H6.5A2.5 2.5 0 0 0 4 22z"/><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/></svg>
+    Proto</button>
+</nav>
+
+<!-- Librairie Supabase depuis un CDN. Si elle ne charge pas (hors ligne),
+     storage.js le détecte et bascule en mode local, sans erreur. -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="data.js"></script>
+<script src="storage.js"></script>
+<script src="charts.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
