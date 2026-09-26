@@ -12,7 +12,7 @@
    VERSION : à incrémenter à chaque dépôt de nouveaux fichiers, sinon le
    téléphone garde l'ancienne version.
    ============================================================ */
-const VERSION = 'summit-v8';   /* v8 : rappel jambes très léger en fin de J4 */
+const VERSION = 'summit-v9';   /* v9 : pompes lestées, élastique face pulls, J5 phases alternées */
 const CACHE_APP = 'app-' + VERSION;
 const CACHE_EXT = 'ext-' + VERSION;
 

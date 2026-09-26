@@ -19,8 +19,8 @@ const SESSIONS = {
   1:{code:'J1', name:'Poussée', type:'muscu',
      warm:'2 min cardio léger · rotations épaules · scapula push-ups ×10 · 10 pompes lentes · dead hang 30 s',
      ex:[
-      {id:'j1a', n:'Pompes déclinées', d:'Pieds surélevés 40-50 cm', sets:4, reps:'max · RIR 1-2', tempo:'3-1-1', rest:120, rl:'2 min'},
-      {id:'j1g', n:'Pompes écartées', d:'Mains bien plus larges que les épaules', sets:3, reps:'8-12', tempo:'2-0-1', rest:90, rl:'1 min 30'},
+      {id:'j1a', n:'Pompes déclinées', d:'Pieds surélevés 40-50 cm · sac à dos 8-10 kg', sets:4, reps:'8-12 · RIR 1-2', tempo:'3-1-1', rest:120, rl:'2 min'},
+      {id:'j1g', n:'Pompes écartées', d:'Mains bien plus larges que les épaules · sac à dos 8-10 kg', sets:3, reps:'8-12', tempo:'2-0-1', rest:90, rl:'1 min 30'},
       {id:'j1b', n:'Dips', d:'Amplitude sans douleur', sets:4, reps:'8-12', tempo:'2-0-1', rest:105, rl:'1 min 45'},
       {id:'j1c', n:'Pike push-ups', d:'Pieds surélevés', sets:4, reps:'8-12', tempo:'2-0-1', rest:90, rl:'1 min 30'},
       {id:'j1d', n:'Élévations latérales élastique', d:'Alt. sans élastique : maintien poirier au mur', sets:4, reps:'15-20', tempo:'contrôlé', rest:60, rl:'1 min'},
@@ -43,12 +43,18 @@ const SESSIONS = {
       {id:'j4a', n:'Tractions pronation large', d:'RIR 1', sets:5, reps:'max', tempo:'contrôlé', rest:150, rl:'2 min 30'},
       {id:'j4b', n:'Tractions supination', d:'', sets:3, reps:'8-10', tempo:'2-0-1', rest:120, rl:'2 min'},
       {id:'j4c', n:'Tirage australien large', d:'', sets:3, reps:'12-15', tempo:'2-1-1', rest:90, rl:'1 min 30'},
-      {id:'j4d', n:'Face pulls élastique', d:'Pause 1 s · alt. : australien coudes hauts', sets:3, reps:'15-20', tempo:'contrôlé', rest:60, rl:'1 min'},
-      {id:'j4e', n:'Rappel poussée · pompes déclinées', d:'RIR 2', sets:3, reps:'10-12', tempo:'2-0-1', rest:90, rl:'1 min 30'},
+      {id:'j4d', n:'Face pulls élastique', d:'Élastique plus résistant · pause 1 s · alt. : australien coudes hauts', sets:3, reps:'15-20', tempo:'contrôlé', rest:60, rl:'1 min'},
+      {id:'j4e', n:'Rappel poussée · pompes déclinées', d:'RIR 2 · sac à dos 8-10 kg', sets:3, reps:'10-12', tempo:'2-0-1', rest:90, rl:'1 min 30'},
       {id:'j4f', n:'Suspension serviette', d:'Poigne · en secondes', sets:2, reps:'max s', tempo:'', rest:90, rl:'1 min 30', unit:'s'},
       {id:'j4g', n:'Anti-rotation', d:'Planche rotation bassin ou pallof · en secondes', sets:3, reps:'30-45 s', tempo:'lent', rest:45, rl:'45 s', unit:'s'},
       {id:'j4h', n:'Rappel jambes · squats', d:'Très léger, RIR 4 — juste maintenir le pattern avant J5 demain', sets:2, reps:'15-20', tempo:'contrôlé', rest:60, rl:'1 min'}]},
+  /* J5 alterne deux phases à partir du bloc 2 — voir phaseJ5() dans app.js.
+     `target` reste le texte de référence complet, affiché dans l'onglet Proto ;
+     phase1/phase2/finisher sont ce que l'onglet Séance montre le jour même. */
   5:{code:'J5', name:'Cardio montagne', type:'cardio',
+     phase1:'30-35 min pente 12-15 % · lest 8-12 kg · RPE 7',
+     phase2:'4×4 min très dur, récup 3 min entre les blocs',
+     finisher:'Finisher core : gainage 3×45 s + planche latérale 2×30 s/côté',
      target:'Phase 1 : 30-35 min pente 12-15 % · lest 8-12 kg · RPE 7. Phase 2 (bloc 2+, 1 sem/2) : 4×4 min très dur, récup 3 min. Finisher core : gainage 3×45 s + planche latérale 2×30 s/côté'},
   6:{code:'S', name:'Actif libre', type:'libre',
      target:'Vélo, rando, marche longue · Z2 plaisir · 1-3 h · optionnel mais payant'},

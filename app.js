@@ -62,6 +62,22 @@ function weekNum(){
 }
 function isDeload(){ return weekNum() === 7; }
 function blocOver(){ return weekNum() > 7; }
+
+/* J5 Cardio montagne alterne deux phases, comme le protocole le prévoit depuis
+   le départ : « Phase 2 (bloc 2+, 1 sem/2) ». Jusqu'ici l'app affichait les deux
+   en vrac et laissait deviner laquelle appliquer.
+   Semaines paires → intervalles VO2max. Jamais avant le bloc 2, et jamais en
+   semaine 7 (deload) ni au-delà : on ne place pas d'intervalles durs dans une
+   semaine dont le but est de dissiper la fatigue. */
+function phaseJ5(){
+  if(STATE.bloc < 2 || weekNum() >= 7) return 1;
+  return weekNum() % 2 === 0 ? 2 : 1;
+}
+function cibleSeance(s){
+  if(s.code !== 'J5' || !s.phase1) return s.target;
+  const p = phaseJ5();
+  return 'Phase ' + p + ' · ' + (p === 2 ? s.phase2 : s.phase1) + ' · ' + s.finisher;
+}
 /* La séance du jour est une proposition, pas une contrainte.
    defaultKey() = ce que dit le calendrier · pickKey() = ce que tu as choisi.
    Le choix est stocké dans le log du jour (DAY.pick), donc valable pour cette date seulement. */
@@ -244,7 +260,7 @@ function renderSeance(){
     if (savedForPick()) h += '<div class="mut small" style="text-align:center; margin-top:8px">Séance enregistrée ✓</div>';
   }
   else if (s.type==='cardio' || s.type==='libre'){
-    h += '<div class="alertcard info">'+esc(s.target)+'</div>';
+    h += '<div class="alertcard info">'+esc(cibleSeance(s))+'</div>';
     const sv = savedForPick();
     const cv = sv && sv.cardio ? sv.cardio : {};
     const kinds = s.code==='J5' ? ['Lesté pente','4×4 VO2max','Escaliers'] : (s.code==='S' ? ['Vélo','Rando','Marche','Autre'] : ['Z2 tapis','Z2 vélo','Z2 extérieur']);
