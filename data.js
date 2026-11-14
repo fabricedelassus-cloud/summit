@@ -19,34 +19,35 @@ const SESSIONS = {
   1:{code:'J1', name:'Poussée', type:'muscu',
      warm:'2 min cardio léger · rotations épaules · scapula push-ups ×10 · 10 pompes lentes · dead hang 30 s',
      ex:[
-      {id:'j1a', n:'Pompes déclinées', d:'Pieds surélevés 40-50 cm · sac à dos 8-10 kg', sets:4, reps:'8-12 · RIR 1-2', tempo:'3-1-1', rest:120, rl:'2 min'},
-      {id:'j1g', n:'Pompes écartées', d:'Mains bien plus larges que les épaules · sac à dos 8-10 kg', sets:3, reps:'8-12', tempo:'2-0-1', rest:90, rl:'1 min 30'},
-      {id:'j1b', n:'Dips', d:'Amplitude sans douleur', sets:4, reps:'8-12', tempo:'2-0-1', rest:105, rl:'1 min 45'},
-      {id:'j1c', n:'Pike push-ups', d:'Pieds surélevés', sets:4, reps:'8-12', tempo:'2-0-1', rest:90, rl:'1 min 30'},
-      {id:'j1d', n:'Élévations latérales élastique', d:'Alt. sans élastique : maintien poirier au mur', sets:4, reps:'15-20', tempo:'contrôlé', rest:60, rl:'1 min'},
-      {id:'j1e', n:'Rappel tirage · tractions', d:'RIR 2', sets:3, reps:'8-10', tempo:'contrôlé', rest:90, rl:'1 min 30'},
-      {id:'j1f', n:'Relevés de jambes suspendu', d:'Zéro balancier', sets:3, reps:'10-15', tempo:'lent', rest:60, rl:'1 min'}]},
+      {id:'j1a', n:'Pompes déclinées', d:'Pieds surélevés 40-50 cm · gilet 12 kg (max) · 4×15 → pieds plus hauts, puis pseudo-planche', sets:4, reps:'12-15 · RIR 1-2', tempo:'3-1-1', rest:120, rl:'2 min'},
+      {id:'j1g', n:'Pompes écartées', d:'Mains bien plus larges que les épaules · gilet 12 kg · pieds sur 20-30 cm · 3×12 → tempo 4-1-1, puis archer', sets:3, reps:'8-12', tempo:'2-0-1', rest:90, rl:'1 min 30'},
+      {id:'j1b', n:'Dips', d:'Gilet lesté · amplitude sans douleur · 4×12 → descente 4 s, puis pause 2 s en bas', sets:4, reps:'8-12', tempo:'2-0-1', rest:105, rl:'1 min 45'},
+      {id:'j1c', n:'Pike push-ups', d:'Pieds surélevés · 4×12 → surélévation plus haute', sets:4, reps:'8-12', tempo:'2-0-1', rest:90, rl:'1 min 30'},
+      {id:'j1d', n:'Élévations latérales élastique', d:'Élastique plus résistant, ou haltères · RIR 1 · 4×20 → élastique plus dur', sets:4, reps:'15-20', tempo:'contrôlé', rest:75, rl:'1 min 15'},
+      {id:'j1e', n:'Rappel tirage · tractions', d:'RIR 2 · série 1 plafonnée à 10 reps · 3×10 → prise plus large', sets:3, reps:'8-10', tempo:'3-0-1', rest:90, rl:'1 min 30'},
+      {id:'j1f', n:'Relevés de jambes suspendu', d:'Zéro balancier · 3×15 → jambes tendues', sets:3, reps:'10-15', tempo:'lent', rest:60, rl:'1 min'}]},
   2:{code:'J2', name:'Bas du corps', type:'muscu',
      warm:'Squats légers ×15 · fentes dynamiques ×10/j · balanciers de jambes · good mornings ×12',
      ex:[
-      {id:'j2a', n:'Fentes bulgares', d:'Par jambe', sets:4, reps:'8-12 /jambe', tempo:'3-1-1', rest:105, rl:'1 min 45'},
-      {id:'j2b', n:'Nordic curl · négatives', d:'Régression : leg curl glissé 8-12', sets:3, reps:'3-5 nég.', tempo:'5 s descente', rest:120, rl:'2 min'},
-      {id:'j2c', n:'Hip thrust unilatéral', d:'Pause 2 s en haut · par jambe', sets:3, reps:'12-15 /jambe', tempo:'2-1-1', rest:75, rl:'1 min 15'},
-      {id:'j2d', n:'Squats tempo / sautés', d:'Impaires : tempo 5-0-1 · paires : sautés', sets:3, reps:'12-15', tempo:'5-0-1 / explosif', rest:90, rl:'1 min 30'},
-      {id:'j2e', n:'Mollets unilatéraux', d:'Sur une marche · étirement en bas', sets:4, reps:'12-15 /jambe', tempo:'2-2-1', rest:50, rl:'50 s'},
-      {id:'j2f', n:'Chaise contre le mur', d:'Finisher', sets:2, reps:'60-90 s', tempo:'statique', rest:60, rl:'1 min', unit:'s'}]},
+      {id:'j2a', n:'Fentes bulgares', d:'Par jambe · 10 kg dans chaque main · 4×12 → 12 kg, ou tempo 4-1-1, ou pied arrière plus haut', sets:4, reps:'8-12 /jambe', tempo:'3-1-1', rest:105, rl:'1 min 45'},
+      {id:'j2b', n:'Nordic curl · négatives', d:'Descente 6 s · régression : leg curl glissé 8-12 · 3×5 → descendre plus bas avant de lâcher', sets:3, reps:'3-5 nég.', tempo:'6 s descente', rest:120, rl:'2 min'},
+      {id:'j2c', n:'Hip thrust unilatéral', d:'Pause 2 s en haut · pied surélevé · par jambe · 3×15 → haltère 10 kg sur le bassin', sets:3, reps:'12-15 /jambe', tempo:'2-1-1', rest:75, rl:'1 min 15'},
+      {id:'j2d', n:'Squats tempo / sautés', d:'Impaires : tempo 5-0-1, gilet 4 kg · paires : sautés · 3×15 → gilet 12 kg, puis une jambe', sets:3, reps:'12-15', tempo:'5-0-1 / explosif', rest:90, rl:'1 min 30'},
+      {id:'j2e', n:'Mollets unilatéraux', d:'20 kg dans une main · sur une marche · étirement en bas · 4×15 → 22-24 kg, ou pause 3 s en bas', sets:4, reps:'12-15 /jambe', tempo:'2-2-1', rest:50, rl:'50 s'},
+      {id:'j2f', n:'Chaise contre le mur', d:'Finisher · gilet 6 kg · 2×90 s → gilet 12 kg, puis une jambe', sets:2, reps:'60-90 s', tempo:'statique', rest:60, rl:'1 min', unit:'s'}]},
   3:{code:'J3', name:'Cardio Zone 2', type:'cardio',
      target:'45-60 min · marche en forte pente ou vélo · FC ~105-125 (test de la parole prime) · interdiction d\'accélérer'},
   4:{code:'J4', name:'Tirage', type:'muscu',
      warm:'Dead hang 30 s · scapula pull-ups ×8 · tirage élastique léger ×15 · 4-5 tractions faciles',
      ex:[
-      {id:'j4a', n:'Tractions pronation large', d:'RIR 1', sets:5, reps:'max', tempo:'contrôlé', rest:150, rl:'2 min 30'},
-      {id:'j4b', n:'Tractions supination', d:'', sets:3, reps:'8-10', tempo:'2-0-1', rest:120, rl:'2 min'},
-      {id:'j4c', n:'Tirage australien large', d:'', sets:3, reps:'12-15', tempo:'2-1-1', rest:90, rl:'1 min 30'},
-      {id:'j4d', n:'Face pulls élastique', d:'Élastique plus résistant · pause 1 s · alt. : australien coudes hauts', sets:3, reps:'15-20', tempo:'contrôlé', rest:60, rl:'1 min'},
-      {id:'j4e', n:'Rappel poussée · pompes déclinées', d:'RIR 2 · sac à dos 8-10 kg', sets:3, reps:'10-12', tempo:'2-0-1', rest:90, rl:'1 min 30'},
+      {id:'j4a', n:'Tractions pronation large', d:'RIR 1-2 · série 1 plafonnée à 10 reps · 5×8 → lest 2 kg', sets:5, reps:'6-8', tempo:'contrôlé', rest:150, rl:'2 min 30'},
+      {id:'j4b', n:'Tractions supination', d:'3×10 → lest 2 kg', sets:3, reps:'8-10', tempo:'2-0-1', rest:120, rl:'2 min'},
+      {id:'j4c', n:'Tirage australien large', d:'Pieds surélevés · 3×15 → gilet 4 kg', sets:3, reps:'12-15', tempo:'2-1-1', rest:90, rl:'1 min 30'},
+      {id:'j4d', n:'Face pulls élastique', d:'Élastique double ou plus résistant · pause 1 s · alt. : australien coudes hauts', sets:3, reps:'15-20', tempo:'contrôlé', rest:60, rl:'1 min'},
+      {id:'j4e', n:'Rappel poussée · pompes déclinées', d:'RIR 2 · gilet 12 kg · pieds plus hauts que J1', sets:3, reps:'10-12', tempo:'2-0-1', rest:90, rl:'1 min 30'},
       {id:'j4f', n:'Suspension serviette', d:'Poigne · en secondes', sets:2, reps:'max s', tempo:'', rest:90, rl:'1 min 30', unit:'s'},
-      {id:'j4g', n:'Anti-rotation', d:'Planche rotation bassin ou pallof · en secondes', sets:3, reps:'30-45 s', tempo:'lent', rest:45, rl:'45 s', unit:'s'},
+      {id:'j4g', n:'Anti-rotation', d:'Planche rotation bassin ou pallof · résistance plus forte (RIR 1-2) · en secondes', sets:3, reps:'30-45 s', tempo:'lent', rest:45, rl:'45 s', unit:'s'},
+      {id:'j4i', n:'Élévations latérales · 2e passage', d:'Comme J1 · élastique ou haltères · RIR 1', sets:2, reps:'15-20', tempo:'contrôlé', rest:60, rl:'1 min'},
       {id:'j4h', n:'Rappel jambes · squats', d:'Très léger, RIR 4 — juste maintenir le pattern avant J5 demain', sets:2, reps:'15-20', tempo:'contrôlé', rest:60, rl:'1 min'}]},
   /* J5 alterne deux phases à partir du bloc 2 — voir phaseJ5() dans app.js.
      `target` reste le texte de référence complet, affiché dans l'onglet Proto ;
@@ -68,7 +69,7 @@ const SESSIONS = {
 const GROUPES = {
   j1a:'Poussée', j1g:'Poussée', j1b:'Poussée', j1c:'Poussée', j1d:'Poussée', j1e:'Tirage',  j1f:'Core',
   j2a:'Jambes',  j2b:'Jambes',  j2c:'Jambes',  j2d:'Jambes',  j2e:'Jambes',  j2f:'Jambes',
-  j4a:'Tirage',  j4b:'Tirage',  j4c:'Tirage',  j4d:'Tirage',  j4e:'Poussée', j4f:'Tirage', j4g:'Core', j4h:'Jambes'
+  j4a:'Tirage',  j4b:'Tirage',  j4c:'Tirage',  j4d:'Tirage',  j4e:'Poussée', j4f:'Tirage', j4g:'Core', j4i:'Poussée', j4h:'Jambes'
 };
 const ORDRE_GROUPES = ['Poussée', 'Tirage', 'Jambes', 'Core'];
 
@@ -80,7 +81,7 @@ const YT = {
   j2d:'tempo squat tutorial', j2e:'single leg calf raise', j2f:'wall sit exercise',
   j4a:'wide grip pull up form', j4b:'chin up tutorial', j4c:'australian pull up tutorial',
   j4d:'band face pull tutorial', j4e:'decline push up tutorial', j4f:'towel hang grip training',
-  j4g:'pallof press band tutorial', j4h:'bodyweight squat tutorial'
+  j4g:'pallof press band tutorial', j4i:'resistance band lateral raise', j4h:'bodyweight squat tutorial'
 };
 
 /* ---------- Mobilité matinale : [titre de bloc, [[exercice, requête YouTube], ...]] ---------- */

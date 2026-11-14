@@ -12,7 +12,7 @@
    VERSION : à incrémenter à chaque dépôt de nouveaux fichiers, sinon le
    téléphone garde l'ancienne version.
    ============================================================ */
-const VERSION = 'summit-v9';   /* v9 : pompes lestées, élastique face pulls, J5 phases alternées */
+const VERSION = 'summit-v10';  /* v10 : bloc 3, gilet 12 kg max, haltères fentes et mollets, j4i élévations latérales */
 const CACHE_APP = 'app-' + VERSION;
 const CACHE_EXT = 'ext-' + VERSION;
 
