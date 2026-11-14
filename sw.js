@@ -12,7 +12,7 @@
    VERSION : à incrémenter à chaque dépôt de nouveaux fichiers, sinon le
    téléphone garde l'ancienne version.
    ============================================================ */
-const VERSION = 'summit-v13';  /* v13 : J2 fentes classiques (j2g) */
+const VERSION = 'summit-v14';  /* v14 : J2 leg curl glissé remplace nordic curl */
 const CACHE_APP = 'app-' + VERSION;
 const CACHE_EXT = 'ext-' + VERSION;
 
