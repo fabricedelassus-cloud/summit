@@ -12,7 +12,7 @@
    VERSION : à incrémenter à chaque dépôt de nouveaux fichiers, sinon le
    téléphone garde l'ancienne version.
    ============================================================ */
-const VERSION = 'summit-v14';  /* v14 : J2 leg curl glissé remplace nordic curl */
+const VERSION = 'summit-v15';  /* v15 : plafond de reps et durcissement sur chaque exercice */
 const CACHE_APP = 'app-' + VERSION;
 const CACHE_EXT = 'ext-' + VERSION;
 
