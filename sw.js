@@ -12,7 +12,7 @@
    VERSION : à incrémenter à chaque dépôt de nouveaux fichiers, sinon le
    téléphone garde l'ancienne version.
    ============================================================ */
-const VERSION = 'summit-v11';  /* v11 : variantes ischios sans ancrage (J2B) */
+const VERSION = 'summit-v12';  /* v12 : fentes classiques en variante J2A */
 const CACHE_APP = 'app-' + VERSION;
 const CACHE_EXT = 'ext-' + VERSION;
 
