@@ -29,7 +29,8 @@ const SESSIONS = {
   2:{code:'J2', name:'Bas du corps', type:'muscu',
      warm:'Squats légers ×15 · fentes dynamiques ×10/j · balanciers de jambes · good mornings ×12',
      ex:[
-      {id:'j2a', n:'Fentes bulgares', d:'Par jambe · 10 kg dans chaque main · 4×12 → 12 kg, ou tempo 4-1-1, ou pied arrière plus haut · sans banc : fentes classiques, mêmes charges', sets:4, reps:'8-12 /jambe', tempo:'3-1-1', rest:105, rl:'1 min 45'},
+      {id:'j2a', n:'Fentes bulgares', d:'Par jambe · 10 kg dans chaque main · 4×12 → 12 kg, ou tempo 4-1-1, ou pied arrière plus haut', sets:4, reps:'8-12 /jambe', tempo:'3-1-1', rest:105, rl:'1 min 45'},
+      {id:'j2g', n:'Fentes classiques', d:'Par jambe · haltères de 10 kg dans chaque main · 3×12 → 12 kg, ou tempo 4-1-1, ou fentes marchées', sets:3, reps:'10-12 /jambe', tempo:'3-0-1', rest:90, rl:'1 min 30'},
       {id:'j2b', n:'Nordic curl · négatives', d:'Descente 6 s · SANS point d\'ancrage : leg curl glissé une jambe (serviette ou chaussettes sur sol lisse), descente 4 s, 3×8-12 · ou soulevé de terre roumain une jambe, haltère 10 kg, 3×10 · avec ancrage : 3×5 → descendre plus bas avant de lâcher', sets:3, reps:'3-5 nég.', tempo:'6 s descente', rest:120, rl:'2 min'},
       {id:'j2c', n:'Hip thrust unilatéral', d:'Pause 2 s en haut · pied surélevé · par jambe · 3×15 → haltère 10 kg sur le bassin', sets:3, reps:'12-15 /jambe', tempo:'2-1-1', rest:75, rl:'1 min 15'},
       {id:'j2d', n:'Squats tempo / sautés', d:'Impaires : tempo 5-0-1, gilet 4 kg · paires : sautés · 3×15 → gilet 12 kg, puis une jambe', sets:3, reps:'12-15', tempo:'5-0-1 / explosif', rest:90, rl:'1 min 30'},
@@ -68,7 +69,7 @@ const SESSIONS = {
    sollicite en premier — sinon le volume total serait gonflé par les doublons. */
 const GROUPES = {
   j1a:'Poussée', j1g:'Poussée', j1b:'Poussée', j1c:'Poussée', j1d:'Poussée', j1e:'Tirage',  j1f:'Core',
-  j2a:'Jambes',  j2b:'Jambes',  j2c:'Jambes',  j2d:'Jambes',  j2e:'Jambes',  j2f:'Jambes',
+  j2a:'Jambes',  j2b:'Jambes',  j2c:'Jambes',  j2d:'Jambes',  j2e:'Jambes',  j2f:'Jambes', j2g:'Jambes',
   j4a:'Tirage',  j4b:'Tirage',  j4c:'Tirage',  j4d:'Tirage',  j4e:'Poussée', j4f:'Tirage', j4g:'Core', j4i:'Poussée', j4h:'Jambes'
 };
 const ORDRE_GROUPES = ['Poussée', 'Tirage', 'Jambes', 'Core'];
@@ -78,7 +79,7 @@ const YT = {
   j1a:'decline push up tutorial', j1g:'wide grip push up tutorial', j1b:'dips tutorial proper form', j1c:'pike push up tutorial',
   j1d:'resistance band lateral raise', j1e:'pull up proper form', j1f:'hanging leg raise tutorial',
   j2a:'bulgarian split squat tutorial', j2b:'nordic curl negatives tutorial', j2c:'single leg hip thrust tutorial',
-  j2d:'tempo squat tutorial', j2e:'single leg calf raise', j2f:'wall sit exercise',
+  j2d:'tempo squat tutorial', j2e:'single leg calf raise', j2f:'wall sit exercise', j2g:'dumbbell reverse lunge tutorial',
   j4a:'wide grip pull up form', j4b:'chin up tutorial', j4c:'australian pull up tutorial',
   j4d:'band face pull tutorial', j4e:'decline push up tutorial', j4f:'towel hang grip training',
   j4g:'pallof press band tutorial', j4i:'resistance band lateral raise', j4h:'bodyweight squat tutorial'
