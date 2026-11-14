@@ -12,7 +12,7 @@
    VERSION : à incrémenter à chaque dépôt de nouveaux fichiers, sinon le
    téléphone garde l'ancienne version.
    ============================================================ */
-const VERSION = 'summit-v10';  /* v10 : bloc 3, gilet 12 kg max, haltères fentes et mollets, j4i élévations latérales */
+const VERSION = 'summit-v11';  /* v11 : variantes ischios sans ancrage (J2B) */
 const CACHE_APP = 'app-' + VERSION;
 const CACHE_EXT = 'ext-' + VERSION;
 

@@ -30,7 +30,7 @@ const SESSIONS = {
      warm:'Squats légers ×15 · fentes dynamiques ×10/j · balanciers de jambes · good mornings ×12',
      ex:[
       {id:'j2a', n:'Fentes bulgares', d:'Par jambe · 10 kg dans chaque main · 4×12 → 12 kg, ou tempo 4-1-1, ou pied arrière plus haut', sets:4, reps:'8-12 /jambe', tempo:'3-1-1', rest:105, rl:'1 min 45'},
-      {id:'j2b', n:'Nordic curl · négatives', d:'Descente 6 s · régression : leg curl glissé 8-12 · 3×5 → descendre plus bas avant de lâcher', sets:3, reps:'3-5 nég.', tempo:'6 s descente', rest:120, rl:'2 min'},
+      {id:'j2b', n:'Nordic curl · négatives', d:'Descente 6 s · SANS point d\'ancrage : leg curl glissé une jambe (serviette ou chaussettes sur sol lisse), descente 4 s, 3×8-12 · ou soulevé de terre roumain une jambe, haltère 10 kg, 3×10 · avec ancrage : 3×5 → descendre plus bas avant de lâcher', sets:3, reps:'3-5 nég.', tempo:'6 s descente', rest:120, rl:'2 min'},
       {id:'j2c', n:'Hip thrust unilatéral', d:'Pause 2 s en haut · pied surélevé · par jambe · 3×15 → haltère 10 kg sur le bassin', sets:3, reps:'12-15 /jambe', tempo:'2-1-1', rest:75, rl:'1 min 15'},
       {id:'j2d', n:'Squats tempo / sautés', d:'Impaires : tempo 5-0-1, gilet 4 kg · paires : sautés · 3×15 → gilet 12 kg, puis une jambe', sets:3, reps:'12-15', tempo:'5-0-1 / explosif', rest:90, rl:'1 min 30'},
       {id:'j2e', n:'Mollets unilatéraux', d:'20 kg dans une main · sur une marche · étirement en bas · 4×15 → 22-24 kg, ou pause 3 s en bas', sets:4, reps:'12-15 /jambe', tempo:'2-2-1', rest:50, rl:'50 s'},
